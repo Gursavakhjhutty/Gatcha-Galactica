@@ -2,6 +2,10 @@
 
 GalacticGacha is a blockchain-based collectible NFT project where users can mint unique celestial objects - either stars or exoplanets. Each mint randomly selects between a star or an exoplanet, creating a unique NFT with specific metadata and characteristics.
 
+## Quick Disclaimer
+
+-The project is runnable but will not give a token with exoplanet data or Star data as the json files for both datasets are too big to upload to github.
+
 ## Features
 
 - Random minting system that chooses between stars and exoplanets

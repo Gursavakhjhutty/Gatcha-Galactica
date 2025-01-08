@@ -1,0 +1,43 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract GalacticGacha is ERC721URIStorage, Ownable {
+    uint256 public tokenCounter;
+
+    // Mapping to store the star/exoplanet info associated with each token
+    mapping(uint256 => string) public tokenData;
+
+    // Event for new token mint
+    event TokenMinted(address indexed owner, uint256 tokenId, string metadataURI);
+
+    constructor() ERC721("GalacticGacha", "GGC") {
+        tokenCounter = 0;
+    }
+
+    // Mint a new token and associate star/exoplanet data
+    function mint(address to, string memory metadataURI) public onlyOwner {
+        uint256 tokenId = tokenCounter;
+        _safeMint(to, tokenId);
+        _setTokenURI(tokenId, metadataURI);  // The URI points to the metadata (JSON with star/exoplanet info)
+
+        // Store the associated data for the token
+        tokenData[tokenId] = metadataURI;
+
+        emit TokenMinted(to, tokenId, metadataURI);
+
+        tokenCounter++;
+    }
+
+    // Get the associated data for a token (e.g., star/exoplanet info)
+    function getTokenData(uint256 tokenId) public view returns (string memory) {
+        return tokenData[tokenId];
+    }
+
+    // Override the _baseURI to return a custom base URI for all tokens (optional)
+    function _baseURI() internal view virtual override returns (string memory) {
+        return "https://api.galacticgacha.com/metadata/";
+    }
+}
